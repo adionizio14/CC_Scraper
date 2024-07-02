@@ -144,6 +144,8 @@ while(True):
         scrape.get_listed()
         scrape.get_start()
         scrape.get_id()
-        scrape.get_export()
+        export = input("Would you like to see the pdf? (y/n): ")
+        if export == "y":
+            scrape.get_export()
     else:
         exit()
