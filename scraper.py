@@ -86,6 +86,11 @@ class Scraper:
 
     #Notes
 
+    def get_notes(self):
+        notes_element = self.parsed_html.find("td", class_="x-grid-td x-grid-cell-rowbody")
+        notes = notes_element.find("div", class_="x-grid-rowbody")
+        print(notes.text.strip())
+    
     def get_id(self):
         # Project ID
         id_element = self.parsed_html.find('p', class_="project-id")
@@ -143,6 +148,7 @@ while(True):
         scrape.get_address()
         scrape.get_listed()
         scrape.get_start()
+        scrape.get_notes()
         scrape.get_id()
         export = input("Would you like to see the pdf? (y/n): ")
         if export == "y":
