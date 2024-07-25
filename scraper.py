@@ -116,7 +116,7 @@ class Scraper:
         else:
             print("ID not found")
 
-    def get_export(self):
+    def get_export(self, id):
         data = {
         'exportIdArray': id,
         'exportDataSourceIdArray': id+'|US',
