@@ -1,9 +1,11 @@
 import requests
+import sys
 from bs4 import BeautifulSoup
 import re
 import json
 from selenium import webdriver
 import webbrowser
+from PyQt5.QtWidgets import QApplication
 import startup
 
 
@@ -28,7 +30,7 @@ class Scraper:
         project_title_element = self.parsed_html.find('h3', class_='project-header-color')
         if project_title_element:
             project_title = project_title_element.text.strip()
-            print("Project Title:", project_title)
+            return project_title
         else:
             print("Project title not found.")
 
@@ -37,7 +39,7 @@ class Scraper:
         value_element = self.parsed_html.find('span', id='spnValue')
         if value_element:
             project_value = value_element.text.strip()
-            print("Estimate Value:", project_value)
+            return project_value
         else:
             print("Project value not found.")
 
@@ -46,7 +48,7 @@ class Scraper:
         stage_element = self.parsed_html.find('li', class_='updated-project')
         if stage_element:
             stage_info = stage_element.find('a', class_='material-col-label-med').text.strip()
-            print("Stage:", stage_info)
+            return stage_info
         else:
             print("Stage information not found.")
 
@@ -55,7 +57,7 @@ class Scraper:
         category_element = self.parsed_html.find('div', class_='comapny-list')
         if category_element:
             category_text = category_element.text.strip().split(' ', 1)[-1].strip()
-            print("Category:", category_text)
+            return category_text
         else:
             print("Category not found")
     
@@ -64,7 +66,7 @@ class Scraper:
         address_element = self.parsed_html.find('span', class_="company-detail-addr-right")
         if address_element:
             address_text = address_element.text.strip()
-            print("Address: ", address_text)
+            return address_text
         else:
             print("Address not found")
 
@@ -73,7 +75,7 @@ class Scraper:
         listed_element = self.parsed_html.find('td', class_="add-details-table-block3")
         if listed_element:
             listed_text = listed_element.text.strip()
-            print("Listed on CC:", listed_text)
+            return listed_text
         else:
             print("Listed date not found")
     
@@ -81,8 +83,12 @@ class Scraper:
         # Start Date
         addition_details = self.parsed_html.find("div", id="box-adddetail")
         start_date_row = addition_details.find('td', string='Start Date:')
-        start_date = start_date_row.find_next_sibling('td').text
-        print("Start Date:", start_date)
+        start_date = start_date_row.find_next_sibling('td')
+        if start_date:
+            return start_date.text
+        else:
+            print("Start date not found")
+        
 
     #Notes
 
@@ -95,7 +101,7 @@ class Scraper:
             
             if project_id:
                 project_id_number = project_id.group()
-                print("Project ID number:", project_id_number)
+                return project_id_number
             else:
                 print("No project ID number found.")
         else:
