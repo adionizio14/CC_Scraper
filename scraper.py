@@ -95,15 +95,11 @@ class Scraper:
     def get_notes(self):
         notes_element = self.parsed_html.find("td", class_="x-grid-td x-grid-cell-rowbody")
         notes = notes_element.find("div", class_="x-grid-rowbody")
-<<<<<<< HEAD
         if notes:
             notes_text = notes.text.strip()
             return notes_text
         else:
             print("Notes not found")
-=======
-        print(notes.text.strip())
->>>>>>> 240a6102bd34c3799f923e24fa886e196c2a7564
     
     def get_id(self):
         # Project ID
@@ -150,7 +146,6 @@ class Scraper:
         # Open the URL in a web browser
         webbrowser.open_new_tab(pdf_url)
 
-<<<<<<< HEAD
 # scrape = Scraper()
 # while(True):
 #     id = input("Enter ID or exit: ")
@@ -170,24 +165,3 @@ class Scraper:
 #             scrape.get_export()
 #     else:
 #         exit()
-=======
-scrape = Scraper()
-while(True):
-    id = input("Enter ID or exit: ")
-    if id != "exit":
-        scrape.load_page(id)
-        scrape.get_title()
-        scrape.get_value()
-        scrape.get_stage()
-        scrape.get_category()
-        scrape.get_address()
-        scrape.get_listed()
-        scrape.get_start()
-        scrape.get_notes()
-        scrape.get_id()
-        export = input("Would you like to see the pdf? (y/n): ")
-        if export == "y":
-            scrape.get_export()
-    else:
-        exit()
->>>>>>> 240a6102bd34c3799f923e24fa886e196c2a7564
