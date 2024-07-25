@@ -146,21 +146,22 @@ class Scraper:
         # Open the URL in a web browser
         webbrowser.open_new_tab(pdf_url)
 
-scrape = Scraper()
-while(True):
-    id = input("Enter ID or exit: ")
-    if id != "exit":
-        scrape.load_page(id)
-        scrape.get_title()
-        scrape.get_value()
-        scrape.get_stage()
-        scrape.get_category()
-        scrape.get_address()
-        scrape.get_listed()
-        scrape.get_start()
-        scrape.get_id()
-        export = input("Would you like to see the pdf? (y/n): ")
-        if export == "y":
-            scrape.get_export()
-    else:
-        exit()
+# scrape = Scraper()
+# while(True):
+#     id = input("Enter ID or exit: ")
+#     if id != "exit":
+#         scrape.load_page(id)
+#         scrape.get_title()
+#         scrape.get_value()
+#         scrape.get_stage()
+#         scrape.get_category()
+#         scrape.get_address()
+#         scrape.get_listed()
+#         scrape.get_start()
+#         scrape.get_notes()
+#         scrape.get_id()
+#         export = input("Would you like to see the pdf? (y/n): ")
+#         if export == "y":
+#             scrape.get_export()
+#     else:
+#         exit()
