@@ -92,6 +92,15 @@ class Scraper:
 
     #Notes
 
+    def get_notes(self):
+        notes_element = self.parsed_html.find("td", class_="x-grid-td x-grid-cell-rowbody")
+        notes = notes_element.find("div", class_="x-grid-rowbody")
+        if notes:
+            notes_text = notes.text.strip()
+            return notes_text
+        else:
+            print("Notes not found")
+    
     def get_id(self):
         # Project ID
         id_element = self.parsed_html.find('p', class_="project-id")
