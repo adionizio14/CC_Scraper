@@ -115,6 +115,18 @@ class Scraper:
                 print("No project ID number found.")
         else:
             print("ID not found")
+    
+    def get_architect(self):
+        architect_element = self.parsed_html.find_all('span', class_="company-detail-addr-right")[2]
+        
+        if architect_element:
+            architect = architect_element.text
+            if len(architect) > 0:
+                return architect
+            else:
+                return "N/A"
+        else:
+            print("No architect found")
 
     def get_export(self, id):
         data = {

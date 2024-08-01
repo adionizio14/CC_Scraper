@@ -37,15 +37,16 @@ class MainWindow(QMainWindow):
             self.listed = self.scrape.get_listed()
             self.start = self.scrape.get_start()
             self.notes = self.scrape.get_notes()
+            self.architect = self.scrape.get_architect()
 
             self.show_details()
 
     def show_details(self):
-        self.details_window = DetailsWindow(self.title, self.value, self.stage, self.category, self.address, self.listed, self.start, self.notes, self.id, self.scrape)
+        self.details_window = DetailsWindow(self.title, self.value, self.stage, self.category, self.address, self.listed, self.start, self.notes, self.id, self.scrape, self.architect)
         self.details_window.show()
 
 class DetailsWindow(QWidget):
-    def __init__(self, title, value, stage, category, address, listed, start, notes, id, scrape):
+    def __init__(self, title, value, stage, category, address, listed, start, notes, id, scrape, architect):
         super().__init__()
 
         self.scrape = scrape
@@ -63,6 +64,7 @@ class DetailsWindow(QWidget):
 
         details_text = (
             f"Title:  {title}\n\n"
+            f"Architect:  {architect}"
             f"Estimate Value:  {value}\n"
             f"Stage:  {stage}\n"
             f"Category:  {category}\n"
