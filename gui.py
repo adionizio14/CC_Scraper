@@ -38,15 +38,16 @@ class MainWindow(QMainWindow):
             self.start = self.scrape.get_start()
             self.notes = self.scrape.get_notes()
             self.architect = self.scrape.get_architect()
+            self.participants = self.scrape.get_participants()
 
             self.show_details()
 
     def show_details(self):
-        self.details_window = DetailsWindow(self.title, self.value, self.stage, self.category, self.address, self.listed, self.start, self.notes, self.id, self.scrape, self.architect)
+        self.details_window = DetailsWindow(self.title, self.value, self.stage, self.category, self.address, self.listed, self.start, self.notes, self.id, self.scrape, self.architect, self.participants)
         self.details_window.show()
 
 class DetailsWindow(QWidget):
-    def __init__(self, title, value, stage, category, address, listed, start, notes, id, scrape, architect):
+    def __init__(self, title, value, stage, category, address, listed, start, notes, id, scrape, architect, participants):
         super().__init__()
 
         self.scrape = scrape
@@ -62,9 +63,14 @@ class DetailsWindow(QWidget):
         text_edit.setReadOnly(True)
         text_edit.setWordWrapMode(True)
 
+        design_team_formatted = ""
+        for participant in participants:
+            design_team_formatted += "\n".join([f"{key}: {value}" for key, value in participant.items()]) + "\n\n"
+
         details_text = (
-            f"Title:  {title}\n\n"
-            f"Architect:  {architect}"
+            f"Title:  {title}\n"
+            f"ID:  {id}\n"
+            f"Architect:  {architect}\n\n"
             f"Estimate Value:  {value}\n"
             f"Stage:  {stage}\n"
             f"Category:  {category}\n"
@@ -72,7 +78,8 @@ class DetailsWindow(QWidget):
             f"Listed on CC:  {listed}\n"
             f"Start Date:  {start}\n\n"
             f"Notes:  {notes}\n\n"
-            f"ID:  {id}"
+            f"Design Team: \n"
+            f"{design_team_formatted}"
         )
 
         text_edit.setText(details_text)
