@@ -4,6 +4,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, QWidget, QGridLayout, QLineEdit, QMessageBox, QLabel, QTextEdit
 from PyQt5.QtGui import QPalette, QColor
 from scraper import Scraper
+from pd import Pipedrive
 
 
 # Subclass QMainWindow to customize your application's main window
@@ -50,11 +51,15 @@ class DetailsWindow(QWidget):
     def __init__(self, title, value, stage, category, address, listed, start, notes, id, scrape, architect, participants):
         super().__init__()
 
+        self.pipedrive = Pipedrive()
+
+        self.deal_id = self.pipedrive.get_deal_id(title)
+
         self.scrape = scrape
         self.id = id
 
         self.setWindowTitle("Scraped Details")
-        self.setGeometry(100, 100, 400, 300)
+        self.setGeometry(100, 100, 600, 1200)
         self.setMaximumWidth(500)
 
         layout = QVBoxLayout()
@@ -78,7 +83,7 @@ class DetailsWindow(QWidget):
             f"Listed on CC:  {listed}\n"
             f"Start Date:  {start}\n\n"
             f"Notes:  {notes}\n\n"
-            f"Design Team: \n"
+            f"Design Team: \n\n"
             f"{design_team_formatted}"
         )
 
