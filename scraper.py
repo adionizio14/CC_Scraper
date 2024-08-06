@@ -128,6 +128,22 @@ class Scraper:
         else:
             print("No architect found")
 
+    def get_participants(self):
+
+        design_team = self.parsed_html.find('div', id='grdProjectParticipants-body')
+        tables = design_team.find_all('table')
+        extracted_data = []
+        for table in tables:
+            headers = []
+            rows = table.find_all('tr')
+            for row in rows:
+                cells = row.find_all(['th', 'td'])
+                cell_text = [cell.get_text(strip=True) for cell in cells]
+                extracted_data.append(cell_text)
+        keys = ["Company Role", "Company Name", "Contact Name", "Contact Status", "Street Address", "Phone", "Email", "Fax Number"]
+        dict_list = [dict(zip(keys, entry)) for entry in extracted_data]
+        return dict_list
+
     def get_export(self, id):
         data = {
         'exportIdArray': id,
@@ -157,23 +173,3 @@ class Scraper:
 
         # Open the URL in a web browser
         webbrowser.open_new_tab(pdf_url)
-
-# scrape = Scraper()
-# while(True):
-#     id = input("Enter ID or exit: ")
-#     if id != "exit":
-#         scrape.load_page(id)
-#         scrape.get_title()
-#         scrape.get_value()
-#         scrape.get_stage()
-#         scrape.get_category()
-#         scrape.get_address()
-#         scrape.get_listed()
-#         scrape.get_start()
-#         scrape.get_notes()
-#         scrape.get_id()
-#         export = input("Would you like to see the pdf? (y/n): ")
-#         if export == "y":
-#             scrape.get_export()
-#     else:
-#         exit()
