@@ -91,15 +91,55 @@ class DetailsWindow(QWidget):
 
         layout.addWidget(text_edit)
 
+        
+        self.task_button = QPushButton("Create task in deal")
+        self.note_button = QPushButton("Create note in deal")
         self.export_button = QPushButton("Export PDF")
-        self.export_button.clicked.connect(self.export_pdf)
+        self.watchlist_button = QPushButton("Add to watch list")
+
+        layout.addWidget(self.task_button)
+        layout.addWidget(self.note_button)
         layout.addWidget(self.export_button)
+        layout.addWidget(self.watchlist_button)
+
+        self.task_button.clicked.connect(lambda: self.add_task(value, stage, category, address, listed, start))
+        self.note_button.clicked.connect(lambda: self.add_note(notes))
+        self.export_button.clicked.connect(self.export_pdf)
+        self.watchlist_button.clicked.connect(self.watchlist_project)
 
         self.setLayout(layout)
+
+
     def export_pdf(self):
         reply = QMessageBox.question(self, 'Export PDF', 'Would you like to see the pdf?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
-            self.scrape.get_export(self.id) 
+            self.scrape.get_export(self.id)
+
+    def watchlist_project(self):
+        reply = QMessageBox.question(self, 'Add to watch list', 'Would you like to add the project to the watchlist?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.scrape.add_to_watchlist(self.id)
+
+    def add_task(self, value, stage, category, address, listed, start):
+
+        reply = QMessageBox.question(self, 'Create task in deal', 'Would you like to create a task in the deal?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            task_text = (
+                f"Estimate Value:  <b>{value}</b><br>"
+                f"Stage:  <b>{stage}</b><br>"
+                f"Category:  <b>{category}</b><br>"
+                f"Address:  <b>{address}</b><br>"
+                f"Listed on CC:  <b>{listed}</b><br>"
+                f"Start Date:  <b>{start}</b>"
+            )
+
+            self.pipedrive.post_task(task_text, self.deal_id)
+    
+    def add_note(self, notes):
+
+        reply = QMessageBox.question(self, 'Create note in deal', 'Would you like to create a npte in the deal?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.pipedrive.post_note(notes, self.deal_id)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
