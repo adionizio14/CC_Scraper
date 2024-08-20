@@ -13,10 +13,19 @@ import startup
 class Scraper:
 
     def __init__(self) -> None:
+
+        """
+        Initalizes scraper by starting and returning the web driver.
+        """
+
         start = startup.Startup()
         self.driver = start.start_driver()
 
     def load_page(self, id):
+        
+        """
+        Method to retrieve the parsed html of the desired project page.
+        """
 
         project_url = 'https://insight.cmdgroup.com/Project/Home/ProjectInformation/' + id
         self.driver.get(project_url)
@@ -25,8 +34,11 @@ class Scraper:
         self.parsed_html = BeautifulSoup(page_source, 'html.parser')
 
     def get_title(self):
-        
-        # Project Title
+
+        """
+        Method to get the title of the project.
+        """
+
         project_title_element = self.parsed_html.find('h3', class_='project-header-color')
         if project_title_element:
             project_title = project_title_element.text.strip()
@@ -35,7 +47,11 @@ class Scraper:
             print("Project title not found.")
 
     def get_value(self):
-    # Estimate Value
+
+        """
+        Method to get the value of the project.
+        """
+
         value_element = self.parsed_html.find('span', id='spnValue')
         if value_element:
             project_value = value_element.text.strip()
@@ -44,7 +60,11 @@ class Scraper:
             print("Project value not found.")
 
     def get_stage(self):
-        # Stage
+
+        """
+        Method to get the stage of the project.
+        """
+                
         stage_element = self.parsed_html.find('li', class_='updated-project')
         if stage_element:
             stage_info = stage_element.find('a', class_='material-col-label-med').text.strip()
@@ -53,7 +73,11 @@ class Scraper:
             print("Stage information not found.")
 
     def get_category(self):
-        # Category
+
+        """
+        Method to get the category of the project.
+        """
+
         category_element = self.parsed_html.find('div', class_='comapny-list')
         if category_element:
             category_text = category_element.text.strip().split(' ', 1)[-1].strip()
@@ -62,7 +86,11 @@ class Scraper:
             print("Category not found")
     
     def get_address(self):
-        # Address
+
+        """
+        Method to get the address of the project.
+        """
+
         address_element = self.parsed_html.find('span', class_="company-detail-addr-right")
         if address_element:
             address_text = address_element.text.strip()
@@ -71,7 +99,11 @@ class Scraper:
             print("Address not found")
 
     def get_listed(self):
-        # Listed on CC
+
+        """
+        Method to get the listed date of the project.
+        """
+
         listed_element = self.parsed_html.find('td', class_="add-details-table-block3")
         if listed_element:
             listed_text = listed_element.text.strip()
@@ -80,7 +112,11 @@ class Scraper:
             print("Listed date not found")
     
     def get_start(self):
-        # Start Date
+
+        """
+        Method to get the start date of the project.
+        """
+
         addition_details = self.parsed_html.find("div", id="box-adddetail")
         start_date_row = addition_details.find('td', string='Start Date:')
         start_date = start_date_row.find_next_sibling('td')
@@ -88,11 +124,13 @@ class Scraper:
             return start_date.text
         else:
             print("Start date not found")
-        
-
-    #Notes
 
     def get_notes(self):
+
+        """
+        Method to get the notes of the project.
+        """
+
         notes_element = self.parsed_html.find("td", class_="x-grid-td x-grid-cell-rowbody")
         notes = notes_element.find("div", class_="x-grid-rowbody")
         if notes:
@@ -102,7 +140,11 @@ class Scraper:
             print("Notes not found")
     
     def get_id(self):
-        # Project ID
+
+        """
+        Method to get the ID of the project.
+        """
+
         id_element = self.parsed_html.find('p', class_="project-id")
         if id_element:
             id_value = id_element.text.strip()
@@ -117,6 +159,11 @@ class Scraper:
             print("ID not found")
     
     def get_architect(self):
+
+        """
+        Method to get the architect of the project.
+        """
+
         architect_element = self.parsed_html.find_all('span', class_="company-detail-addr-right")[2]
         
         if architect_element:
@@ -129,6 +176,10 @@ class Scraper:
             print("No architect found")
 
     def get_participants(self):
+
+        """
+        Method to get all of the partcipants of the project.
+        """
 
         design_team = self.parsed_html.find('div', id='grdProjectParticipants-body')
         tables = design_team.find_all('table')
@@ -145,6 +196,11 @@ class Scraper:
         return dict_list
 
     def get_export(self, id):
+
+        """
+        Method to get the pdf file of the project.
+        """
+
         data = {
         'exportIdArray': id,
         'exportDataSourceIdArray': id+'|US',
@@ -173,3 +229,7 @@ class Scraper:
 
         # Open the URL in a web browser
         webbrowser.open_new_tab(pdf_url)
+
+    def add_to_watchlist(self,id):
+
+        print("idk")
