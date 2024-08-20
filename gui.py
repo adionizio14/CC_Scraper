@@ -89,7 +89,7 @@ class CredsWindow(QWidget):
         self.setLayout(layout)
 
     def save_changes(self):
-
+        
         new_email_text = self.new_email.text()
         new_password_text = self.new_password.text()
         new_token_text = self.new_token.text()
