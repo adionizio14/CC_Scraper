@@ -4,6 +4,10 @@ import auth
 class Pipedrive: 
 
     def __init__(self) -> None:
+
+        """
+        Initalizes the users API token
+        """
         
         authenticator = auth.Authentication()
 
@@ -11,6 +15,10 @@ class Pipedrive:
         self.client.set_api_token(authenticator.token)
 
     def get_deal_id(self, deal_name):
+        
+        """
+        Method to get the deal id from PD using the name of the deal
+        """
 
         params = {
             'term': deal_name
@@ -24,6 +32,10 @@ class Pipedrive:
         return deal_id
     
     def post_task(self, task_text, deal_id):
+
+        """ 
+        Method to post the created task in PD 
+        """
         
         data = {
             'subject':'Found in CC',
@@ -36,6 +48,10 @@ class Pipedrive:
         reponse = self.client.activities.create_activity(data)
     
     def post_note(self, notes, deal_id):
+
+        """
+        Method to post the created note in PD
+        """
         
         data = {
             'content':notes,
@@ -44,15 +60,3 @@ class Pipedrive:
         }
 
         reponse = self.client.notes.create_note(data)
-
-# test = Pipedrive()
-
-# task_text = (
-#     f"Estimate Value:  <b>hi</b><br>"
-#     f"Stage:  <b>hi</b><br>"
-#     f"Category:  <b>hi</b><br>"
-#     f"Address:  <b>hi</b><br>"
-#     f"Listed on CC:  <b>hi</b><br>"
-#     f"Start Date:  <b>hi</b>"
-# )
-# test.post_task(task_text, 20517)

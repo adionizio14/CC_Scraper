@@ -6,6 +6,10 @@ class Authentication:
 
     def __init__(self) -> None:
 
+        """
+        Method to load credentials from json file at initalization.
+        """
+
         with open('credentials.json', 'r') as openfile:
 
             creds = json.load(openfile)
@@ -15,6 +19,10 @@ class Authentication:
         self.token = creds["token"]
     
     def changes_creds(self, email, password, token):
+
+        """
+        Method to change credentials using json.
+        """
         
         with open('credentials.json', 'r') as openfile:
 
