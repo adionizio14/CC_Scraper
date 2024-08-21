@@ -14,6 +14,13 @@ class Pipedrive:
         self.client = Client(domain='https://specifiedbuildingproducts-661b09.pipedrive.com/')
         self.client.set_api_token(authenticator.token)
 
+    def get_field_keys(self):
+
+        response = self.client.deals.get_deal_fields()
+        data = response["data"]
+        
+        return data
+
     def get_deal_id(self, deal_name):
         
         """

@@ -67,6 +67,7 @@ class CredsWindow(QWidget):
         self.setGeometry(100, 100, 300, 200)
 
         self.authentication = Authentication()
+        self.pipedrive = Pipedrive()
 
         self.new_email = QLineEdit()
         self.new_password = QLineEdit()
@@ -96,7 +97,8 @@ class CredsWindow(QWidget):
 
         reply = QMessageBox.question(self, 'Save Changes', 'Would you like to save these changes to the credentials?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
-            self.authentication.changes_creds(new_email_text, new_password_text, new_token_text)
+            key_fields = self.pipedrive.get_field_keys()
+            self.authentication.changes_creds(new_email_text, new_password_text, new_token_text, key_fields)
 
 class DetailsWindow(QWidget):
 
