@@ -17,6 +17,16 @@ class Authentication:
         self.email = creds["email"]
         self.password = creds["password"]
         self.token = creds["token"]
+
+        self.business_unit = creds['Business Unit']
+        self.deal_type = creds['Deal Type']
+        self.architect = creds['Architect']
+        self.lead_architect = creds['Lead Architect']
+        self.general_contractor = creds['General Contractor']
+        self.lead_source = creds['Lead Source']
+        self.CC_id = creds['ConstructConn Project ID#']
+        self.business_rep = creds['Business Development Rep']
+        self.state = creds['State']
     
     def changes_creds(self, email, password, token, key_fields):
 
