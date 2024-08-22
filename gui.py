@@ -145,17 +145,19 @@ class DetailsWindow(QWidget):
 
         layout.addWidget(text_edit)
 
-        
+        self.create_deal_button = QPushButton("Create new deal")
         self.task_button = QPushButton("Create task in deal")
         self.note_button = QPushButton("Create note in deal")
         self.export_button = QPushButton("Export PDF")
         self.watchlist_button = QPushButton("Add to watch list")
-
+        
+        layout.addWidget(self.create_deal_button)
         layout.addWidget(self.task_button)
         layout.addWidget(self.note_button)
         layout.addWidget(self.export_button)
         layout.addWidget(self.watchlist_button)
 
+        self.create_deal_button.clicked.connect(lambda: self.create_deal(title, participants, address, id))
         self.task_button.clicked.connect(lambda: self.add_task(value, stage, category, address, listed, start))
         self.note_button.clicked.connect(lambda: self.add_note(notes))
         self.export_button.clicked.connect(self.export_pdf)
@@ -164,6 +166,10 @@ class DetailsWindow(QWidget):
         self.setLayout(layout)
 
 
+    def create_deal(self, title, participants, address, id):
+        reply = QMessageBox.question(self, 'Create new deal', 'Would you like to make a new deal?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.scrape.create_new_deal(self, title, participants, address, id)
     def export_pdf(self):
         reply = QMessageBox.question(self, 'Export PDF', 'Would you like to see the pdf?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
