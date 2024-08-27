@@ -107,7 +107,7 @@ class DetailsWindow(QWidget):
 
         self.pipedrive = Pipedrive()
 
-        self.deal_id = self.pipedrive.get_deal_id(title)
+        # self.deal_id = self.pipedrive.get_deal_id(title)
 
         self.scrape = scrape
         self.id = id
@@ -157,7 +157,7 @@ class DetailsWindow(QWidget):
         layout.addWidget(self.export_button)
         layout.addWidget(self.watchlist_button)
 
-        self.create_deal_button.clicked.connect(lambda: self.create_deal(title, participants, address, id))
+        self.create_deal_button.clicked.connect(lambda: self.create_deal(title, participants, address, id, value, stage, category, listed, start, notes))
         self.task_button.clicked.connect(lambda: self.add_task(value, stage, category, address, listed, start))
         self.note_button.clicked.connect(lambda: self.add_note(notes))
         self.export_button.clicked.connect(self.export_pdf)
@@ -166,10 +166,18 @@ class DetailsWindow(QWidget):
         self.setLayout(layout)
 
 
-    def create_deal(self, title, participants, address, id):
+    def create_deal(self, title, participants, address, id, value, stage, category, listed, start, notes):
         reply = QMessageBox.question(self, 'Create new deal', 'Would you like to make a new deal?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
-            self.scrape.create_new_deal(self, title, participants, address, id)
+            task_text = (
+                f"Estimate Value:  <b>{value}</b><br>"
+                f"Stage:  <b>{stage}</b><br>"
+                f"Category:  <b>{category}</b><br>"
+                f"Address:  <b>{address}</b><br>"
+                f"Listed on CC:  <b>{listed}</b><br>"
+                f"Start Date:  <b>{start}</b>"
+            )
+            self.pipedrive.create_new_deal(title, participants, address, id, task_text, notes)
     def export_pdf(self):
         reply = QMessageBox.question(self, 'Export PDF', 'Would you like to see the pdf?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
