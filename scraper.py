@@ -238,4 +238,5 @@ class Scraper:
 
     def add_to_watchlist(self,id):
 
-        print("idk")
+        self.watchlist = self.driver.find_element('id', 'spnProjectFavourite')
+        self.watchlist.click()
