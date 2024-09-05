@@ -88,9 +88,16 @@ class Pipedrive:
             self.org_id = self.get_org_id(self.general_contractor)
         
         if self.lead_architect != "":
-            self.person_id = self.get_person_id(self.lead_architect)
+            try:
+                self.person_id = self.get_person_id(self.lead_architect)
+            except:
+                print("No person found in PD")
+    
         elif self.general_contractor != "":
-            self.person_id = self.get_person_id(self.lead_gc)
+            try:
+                self.person_id = self.get_person_id(self.lead_gc)
+            except:
+                print("No person found in PD")
     
     def get_person_id(self, name):
 
