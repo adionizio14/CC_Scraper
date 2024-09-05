@@ -147,9 +147,9 @@ class DetailsWindow(QWidget):
 
         layout.addWidget(text_edit)
 
-        self.create_deal_button = QPushButton("Create new deal")
-        self.task_button = QPushButton("Create task in deal")
-        self.note_button = QPushButton("Create note in deal")
+        self.create_deal_button = QPushButton("Create New Deal")
+        self.task_button = QPushButton("Create Task in Deal")
+        self.note_button = QPushButton("Create Note in Deal")
         self.export_button = QPushButton("Export PDF")
         self.watchlist_button = QPushButton("Add to Watch List")
         
