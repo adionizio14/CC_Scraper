@@ -33,6 +33,12 @@ class Scraper:
         page_source = self.driver.page_source
         self.parsed_html = BeautifulSoup(page_source, 'html.parser')
 
+    def get_latest_update(self):
+
+        updated_info = self.parsed_html.find('a', id = 'summaryField')
+        if updated_info:
+            return updated_info.text
+
     def get_title(self):
 
         """

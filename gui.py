@@ -46,6 +46,7 @@ class MainWindow(QMainWindow):
             self.notes = self.scrape.get_notes()
             self.architect = self.scrape.get_architect()
             self.participants = self.scrape.get_participants()
+            self.last_update = self.scrape.get_latest_update()
 
             self.show_details()
     
@@ -55,7 +56,7 @@ class MainWindow(QMainWindow):
         self.creds_window.show()
 
     def show_details(self):
-        self.details_window = DetailsWindow(self.title, self.value, self.stage, self.category, self.address, self.listed, self.start, self.notes, self.id, self.scrape, self.architect, self.participants)
+        self.details_window = DetailsWindow(self.title, self.value, self.stage, self.category, self.address, self.listed, self.start, self.notes, self.id, self.scrape, self.architect, self.participants, self.last_update)
         self.details_window.show()
 
 class CredsWindow(QWidget):
@@ -102,7 +103,7 @@ class CredsWindow(QWidget):
 
 class DetailsWindow(QWidget):
 
-    def __init__(self, title, value, stage, category, address, listed, start, notes, id, scrape, architect, participants):
+    def __init__(self, title, value, stage, category, address, listed, start, notes, id, scrape, architect, participants, last_update):
         super().__init__()
 
         self.pipedrive = Pipedrive()
@@ -136,6 +137,7 @@ class DetailsWindow(QWidget):
             f"Address:  {address}\n"
             f"Listed on CC:  {listed}\n"
             f"Start Date:  {start}\n\n"
+            f"Latest update: {last_update}\n\n"
             f"Notes:  {notes}\n\n"
             f"Design Team: \n\n"
             f"{design_team_formatted}"
