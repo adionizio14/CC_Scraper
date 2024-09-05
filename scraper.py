@@ -236,7 +236,15 @@ class Scraper:
         # Open the URL in a web browser
         webbrowser.open_new_tab(pdf_url)
 
-    def add_to_watchlist(self,id):
+    def check_if_watchlist(self):
 
-        self.watchlist = self.driver.find_element('id', 'spnProjectFavourite')
+        self.clicked = self.parsed_html.find('span',class_='star-header star-icon-checked-users')
+        if self.clicked:
+            return True
+        else:
+            return False
+
+    def add_to_watchlist(self):
+
+        self.watchlist = self.driver.find_element('id','spnProjectFavourite')
         self.watchlist.click()
