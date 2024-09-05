@@ -151,8 +151,12 @@ class DetailsWindow(QWidget):
         self.task_button = QPushButton("Create task in deal")
         self.note_button = QPushButton("Create note in deal")
         self.export_button = QPushButton("Export PDF")
-        self.watchlist_button = QPushButton("Add to watch list")
+        self.watchlist_button = QPushButton("Add to Watch List")
         
+        is_checked = self.scrape.check_if_watchlist()
+        if is_checked:
+            self.watchlist_button.setEnabled(False)
+
         layout.addWidget(self.create_deal_button)
         layout.addWidget(self.task_button)
         layout.addWidget(self.note_button)
@@ -164,6 +168,7 @@ class DetailsWindow(QWidget):
         self.note_button.clicked.connect(lambda: self.add_note(notes))
         self.export_button.clicked.connect(self.export_pdf)
         self.watchlist_button.clicked.connect(self.watchlist_project)
+        
 
         self.setLayout(layout)
 
@@ -188,7 +193,8 @@ class DetailsWindow(QWidget):
     def watchlist_project(self):
         reply = QMessageBox.question(self, 'Add to watch list', 'Would you like to add the project to the watchlist?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
-            self.scrape.add_to_watchlist(self.id)
+            self.scrape.add_to_watchlist()
+            self.watchlist_button.setEnabled(False)
 
     def add_task(self, value, stage, category, address, listed, start):
 
