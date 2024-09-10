@@ -16,6 +16,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("CC 2 PD")
         self.setGeometry(100, 100, 400, 100)
         self.id_input = QLineEdit()
+        self.id_input.setReadOnly(True)
         self.id_input.setPlaceholderText("Enter the ID of the project")
         self.id_input.setMaxLength(10)
 
@@ -42,6 +43,7 @@ class MainWindow(QMainWindow):
     def log_in(self):
 
         self.scrape = Scraper()
+        self.id_input.setReadOnly(False)
         self.log_in_button.setText('Logged In')
         self.log_in_button.setEnabled(False)
 
@@ -133,7 +135,7 @@ class DetailsWindow(QWidget):
         layout = QVBoxLayout()
 
         text_edit = QTextEdit()
-        text_edit.setReadOnly(True)
+        # text_edit.setReadOnly(True)
         text_edit.setWordWrapMode(True)
 
         design_team_formatted = ""
