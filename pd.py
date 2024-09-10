@@ -65,7 +65,7 @@ class Pipedrive:
 
         self.client.deals.create_deal(data)
 
-        time.sleep(8)
+        time.sleep(2)
 
         # get id of deal
 
