@@ -12,19 +12,25 @@ from auth import Authentication
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.scrape = Scraper()
+        
         self.setWindowTitle("CC 2 PD")
         self.setGeometry(100, 100, 400, 100)
         self.id_input = QLineEdit()
         self.id_input.setPlaceholderText("Enter the ID of the project")
         self.id_input.setMaxLength(10)
-        self.id_input.returnPressed.connect(self.scrape_data)
 
+
+        self.log_in_button = QPushButton("Log In")
         self.creds = QPushButton("Change Credentials")
+
+        self.scrape = None
+        self.log_in_button.clicked.connect(self.log_in)
         self.creds.clicked.connect(self.change_creds)
+        self.id_input.returnPressed.connect(self.scrape_data)
         
         layout = QVBoxLayout()
         layout.addWidget(self.id_input)
+        layout.addWidget(self.log_in_button)
         layout.addWidget(self.creds)
         
         container = QWidget()
@@ -32,6 +38,13 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(container)
 
         self.setCentralWidget(container)
+
+    def log_in(self):
+
+        self.scrape = Scraper()
+        self.log_in_button.setText('Logged In')
+        self.log_in_button.setEnabled(False)
+
 
     def scrape_data(self):
             self.id = self.id_input.text()
