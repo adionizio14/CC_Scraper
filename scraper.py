@@ -36,8 +36,11 @@ class Scraper:
     def get_latest_update(self):
 
         updated_info = self.parsed_html.find('a', id = 'summaryField')
-        if updated_info:
-            return updated_info.text
+        date = self.parsed_html.find('a', id = 'updateDateField')
+        
+        if updated_info and date:
+            updated = date.text + " " + updated_info.text
+            return updated
 
     def get_title(self):
 
