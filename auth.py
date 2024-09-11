@@ -1,6 +1,8 @@
 import json
 import bcrypt
 import base64
+import os
+import sys
 
 class Authentication:
 
@@ -10,7 +12,9 @@ class Authentication:
         Method to load credentials from json file at initalization.
         """
 
-        with open('credentials.json', 'r') as openfile:
+        self.json_path = self.resource_path('credentials.json')
+
+        with open(self.json_path, 'r') as openfile:
 
             creds = json.load(openfile)
         
@@ -27,6 +31,13 @@ class Authentication:
         self.CC_id = creds['ConstructConn Project ID#']
         self.business_rep = creds['Business Development Rep']
         self.state = creds['State']
+
+    def resource_path(self, relative_path):
+        if hasattr(sys, '_MEIPASS'):
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+            return os.path.join(sys._MEIPASS, relative_path)
+        else:
+            return os.path.join(os.path.abspath("."), relative_path)
     
     def changes_creds(self, email, password, token, key_fields):
 
@@ -34,7 +45,7 @@ class Authentication:
         Method to change credentials using json.
         """
         
-        with open('credentials.json', 'r') as openfile:
+        with open(self.json_path, 'r') as openfile:
 
             creds = json.load(openfile)
         
@@ -53,7 +64,7 @@ class Authentication:
             if entry['name'] in field_names:
                 creds[entry['name']] = entry['key']
 
-        with open('credentials.json', 'w') as f: 
+        with open(self.json_path, 'w') as f: 
             json.dump(creds, f, indent=4)
 
     def get_deal_field_keys(self, data):
