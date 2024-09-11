@@ -12,7 +12,7 @@ class Authentication:
         Method to load credentials from json file at initalization.
         """
 
-        self.json_path = self.resource_path('credentials.json')
+        self.json_path = self.resource_path('credentials_exe.json')
 
         with open(self.json_path, 'r') as openfile:
 
@@ -37,7 +37,7 @@ class Authentication:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
             return os.path.join(sys._MEIPASS, relative_path)
         else:
-            return os.path.join(os.path.abspath("."), relative_path)
+            return os.path.join(os.path.abspath("."), 'credentials.json')
     
     def changes_creds(self, email, password, token, key_fields):
 
