@@ -60,9 +60,10 @@ class Authentication:
         if token != "":
             creds["token"] = token
 
-        for entry in key_fields:
-            if entry['name'] in field_names:
-                creds[entry['name']] = entry['key']
+        if key_fields:
+            for entry in key_fields:
+                if entry['name'] in field_names:
+                    creds[entry['name']] = entry['key']
 
         with open(self.json_path, 'w') as f: 
             json.dump(creds, f, indent=4)
