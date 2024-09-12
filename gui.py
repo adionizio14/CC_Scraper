@@ -133,10 +133,14 @@ class DetailsWindow(QWidget):
 
         self.pipedrive = Pipedrive()
 
-        # self.deal_id = self.pipedrive.get_deal_id(title)
 
         self.scrape = scrape
         self.id = id
+
+        try:
+            self.deal_id = self.pipedrive.get_deal_id(title)
+        except:
+            self.deal_id = None
 
         self.setWindowTitle("Scraped Details")
         self.setGeometry(100, 100, 600, 1200)
@@ -177,6 +181,14 @@ class DetailsWindow(QWidget):
         self.note_button = QPushButton("Create Note in Deal")
         self.export_button = QPushButton("Export PDF")
         self.watchlist_button = QPushButton("Add to Watch List")
+
+        if self.pipedrive.valid is False:
+            self.create_deal_button.setEnabled(False)
+            self.task_button.setEnabled(False)
+            self.note_button.setEnabled(False)
+        elif self.deal_id is None:
+            self.task_button.setEnabled(False)
+            self.note_button.setEnabled(False)
         
         is_checked = self.scrape.check_if_watchlist()
         if is_checked:
