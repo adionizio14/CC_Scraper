@@ -11,10 +11,26 @@ class Pipedrive:
         """
         
         self.authenticator = auth.Authentication()
-
         self.client = Client(domain='https://specifiedbuildingproducts-661b09.pipedrive.com/')
         self.client.set_api_token(self.authenticator.token)
+        self.valid = self.check_valid()
 
+    def check_valid(self):
+
+        try:
+            # This will attempt to retrieve current user data
+            user_info = self.client.users.get_me()
+            
+            # If the token is valid, this will return user data
+            if user_info:
+                return True
+            else:
+                return False
+        
+        except:
+            # If the token is invalid or another error occurs
+            return False
+        
     def get_state(self, address):
         parts = address.split(',')
         if len(parts) > 2:
