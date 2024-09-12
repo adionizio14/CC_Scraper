@@ -20,6 +20,7 @@ class MainWindow(QMainWindow):
         self.id_input.setPlaceholderText("Enter the ID of the project")
         self.id_input.setMaxLength(10)
 
+        self.authentication = Authentication()
 
         self.log_in_button = QPushButton("Log In")
         self.creds = QPushButton("Change Credentials")
@@ -43,27 +44,33 @@ class MainWindow(QMainWindow):
     def log_in(self):
 
         self.scrape = Scraper()
-        self.id_input.setReadOnly(False)
-        self.log_in_button.setText('Logged In')
-        self.log_in_button.setEnabled(False)
+        if self.scrape.driver.current_url == 'https://insight.cmdgroup.com/SearchResult/ProjectSearchResult/Index':
+            self.id_input.setReadOnly(False)
+            self.log_in_button.setText('Logged In')
+            self.log_in_button.setEnabled(False)
+        else:
+            QMessageBox.warning(self, 'Incorrect Credentials', 'The log in credentials were incorrect, please change')
 
 
     def scrape_data(self):
             self.id = self.id_input.text()
-            self.scrape.load_page(self.id)
-            self.title = self.scrape.get_title()
-            self.value = self.scrape.get_value()
-            self.stage = self.scrape.get_stage()
-            self.category = self.scrape.get_category()
-            self.address = self.scrape.get_address()
-            self.listed = self.scrape.get_listed()
-            self.start = self.scrape.get_start()
-            self.notes = self.scrape.get_notes()
-            self.architect = self.scrape.get_architect()
-            self.participants = self.scrape.get_participants()
-            self.last_update = self.scrape.get_latest_update()
+            if self.id and len(self.id) == 10:
+                self.scrape.load_page(self.id)
+                self.title = self.scrape.get_title()
+                self.value = self.scrape.get_value()
+                self.stage = self.scrape.get_stage()
+                self.category = self.scrape.get_category()
+                self.address = self.scrape.get_address()
+                self.listed = self.scrape.get_listed()
+                self.start = self.scrape.get_start()
+                self.notes = self.scrape.get_notes()
+                self.architect = self.scrape.get_architect()
+                self.participants = self.scrape.get_participants()
+                self.last_update = self.scrape.get_latest_update()
 
-            self.show_details()
+                self.show_details()
+            else:
+                QMessageBox.warning(self, 'Invalid input', 'Please enter a valid ID number or log in')
     
     def change_creds(self):
 
@@ -113,7 +120,10 @@ class CredsWindow(QWidget):
 
         reply = QMessageBox.question(self, 'Save Changes', 'Would you like to save these changes to the credentials?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
-            key_fields = self.pipedrive.get_field_keys()
+            key_fields = None
+            if new_token_text != '':
+                self.pipedrive.client.set_api_token(new_token_text)
+                key_fields = self.pipedrive.get_field_keys()
             self.authentication.changes_creds(new_email_text, new_password_text, new_token_text, key_fields)
 
 class DetailsWindow(QWidget):
